@@ -1,0 +1,1489 @@
+{
+	"info": {
+		"_postman_id": "156c8b0b-cc33-43a4-847c-fc2923f30837",
+		"name": "Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SignIn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0760fe49-293f-42d9-9256-2c11db875b2c",
+						"exec": [
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Token exist\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.session.token).to.be.an('string').that.is.not.empty;",
+							"});",
+							"pm.test(\"Reload exist\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.session.reload).to.be.an('string').that.is.not.empty;",
+							"});",
+							"pm.test(\"Profile exist\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.user.profile).to.be.an('object').that.is.not.empty;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Token is set\", function () {",
+							"   var jsonData = pm.response.json();",
+							"    pm.environment.set(\"token\", jsonData.result.session.token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Snipfeed/145 Apple/iPhone7,2 iOS/12.1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "login",
+							"value": "mezgouri00",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
+							"type": "text"
+						},
+						{
+							"key": "stayConnected",
+							"value": "true",
+							"type": "text"
+						},
+						{
+							"key": "onesignal",
+							"value": "7ddf7a44-153c-466f-9760-6d42a46638c3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{url}}/auth/signin",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "For you",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3a7aa878-a8a3-471c-a2c1-531b45304904",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Result exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/contents/feed/personalize?platform=APP&page=0",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contents",
+						"feed",
+						"personalize"
+					],
+					"query": [
+						{
+							"key": "platform",
+							"value": "APP"
+						},
+						{
+							"key": "page",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listing categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2168c9e4-2eb3-422e-b788-8ed86173ad59",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Entities exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.entities).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/categories/feed",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"categories",
+						"feed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "For you with categorie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "45dc8bf3-729b-4c7e-b0c7-912ba98053f3",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Result exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/contents/feed/personalize?platform=APP&page=0&categories=5cccb151b129e23ce122613b",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contents",
+						"feed",
+						"personalize"
+					],
+					"query": [
+						{
+							"key": "platform",
+							"value": "APP"
+						},
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "categories",
+							"value": "5cccb151b129e23ce122613b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "399fd6c6-0cdd-4897-a127-4d8a292b3346",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Entities exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.entities).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/users/me?fields=profile.pseudo,profile.firstName,profile.lastName,profile.coins,profile.experience,profile.nextLevelExperience,profile.previousLevelExperience,profile.level,profile.avatar,profile.description,information.email,information.gender,settings.categories,onesignal,subscribed,statistics.subscribers,statistics.subscriptions,subscribers&join=settings.categories@fields~type;name",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"me"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "profile.pseudo,profile.firstName,profile.lastName,profile.coins,profile.experience,profile.nextLevelExperience,profile.previousLevelExperience,profile.level,profile.avatar,profile.description,information.email,information.gender,settings.categories,onesignal,subscribed,statistics.subscribers,statistics.subscriptions,subscribers"
+						},
+						{
+							"key": "join",
+							"value": "settings.categories@fields~type;name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "635cdce8-2ff9-4b19-aa59-90b2cacda486",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Entity exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.entity).to.be.an('object').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/contents/5e029e9b3b6fee0012299507?join=createdBy@fields~profile.name;profile.avatar",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contents",
+						"5e029e9b3b6fee0012299507"
+					],
+					"query": [
+						{
+							"key": "join",
+							"value": "createdBy@fields~profile.name;profile.avatar"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get conversations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2123b48a-27a5-45e4-9b70-27dc37dcefce",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Entities exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.entities).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/conversations/me?join=members.createdBy@fields~profile.avatar;profile.pseudo,newMessages,createdBy@fields~profile.avatar;profile.pseudo&sort=-messages.createdAt&fields=type,title,createdAt,messages.createdAt,lastMessage,newMessages",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"conversations",
+						"me"
+					],
+					"query": [
+						{
+							"key": "join",
+							"value": "members.createdBy@fields~profile.avatar;profile.pseudo,newMessages,createdBy@fields~profile.avatar;profile.pseudo"
+						},
+						{
+							"key": "sort",
+							"value": "-messages.createdAt"
+						},
+						{
+							"key": "fields",
+							"value": "type,title,createdAt,messages.createdAt,lastMessage,newMessages"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get messages",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2123b48a-27a5-45e4-9b70-27dc37dcefce",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Entities exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.entities).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/conversations/me?join=members.createdBy@fields~profile.avatar;profile.pseudo,newMessages,createdBy@fields~profile.avatar;profile.pseudo&sort=-messages.createdAt&fields=type,title,createdAt,messages.createdAt,lastMessage,newMessages",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"conversations",
+						"me"
+					],
+					"query": [
+						{
+							"key": "join",
+							"value": "members.createdBy@fields~profile.avatar;profile.pseudo,newMessages,createdBy@fields~profile.avatar;profile.pseudo"
+						},
+						{
+							"key": "sort",
+							"value": "-messages.createdAt"
+						},
+						{
+							"key": "fields",
+							"value": "type,title,createdAt,messages.createdAt,lastMessage,newMessages"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read Message",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2123b48a-27a5-45e4-9b70-27dc37dcefce",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Entities exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.entities).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/conversations/me?join=members.createdBy@fields~profile.avatar;profile.pseudo,newMessages,createdBy@fields~profile.avatar;profile.pseudo&sort=-messages.createdAt&fields=type,title,createdAt,messages.createdAt,lastMessage,newMessages",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"conversations",
+						"me"
+					],
+					"query": [
+						{
+							"key": "join",
+							"value": "members.createdBy@fields~profile.avatar;profile.pseudo,newMessages,createdBy@fields~profile.avatar;profile.pseudo"
+						},
+						{
+							"key": "sort",
+							"value": "-messages.createdAt"
+						},
+						{
+							"key": "fields",
+							"value": "type,title,createdAt,messages.createdAt,lastMessage,newMessages"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Message",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2123b48a-27a5-45e4-9b70-27dc37dcefce",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "message",
+							"value": "test",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{url}}/conversations/5df76da53dd00b00126b7e25/messages",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"conversations",
+						"5df76da53dd00b00126b7e25",
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get notifications",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "42877a92-a85f-4f14-abe2-85300a913be9",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Entities exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.entities).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/users/me/notifications?fields=read,type,title,createdAt,createdBy,text,image,url,subtitle,page&join=notifications.page@fields~profile.pseudo;profile.avatar&sort=-createdAt&limit=20",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"me",
+						"notifications"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "read,type,title,createdAt,createdBy,text,image,url,subtitle,page"
+						},
+						{
+							"key": "join",
+							"value": "notifications.page@fields~profile.pseudo;profile.avatar"
+						},
+						{
+							"key": "sort",
+							"value": "-createdAt"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						},
+						{
+							"key": null,
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Open Notification",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "42877a92-a85f-4f14-abe2-85300a913be9",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Entities exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.entities).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/users/me/notifications?fields=read,type,title,createdAt,createdBy,text,image,url,subtitle,page&join=notifications.page@fields~profile.pseudo;profile.avatar&sort=-createdAt&limit=20",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"me",
+						"notifications"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "read,type,title,createdAt,createdBy,text,image,url,subtitle,page"
+						},
+						{
+							"key": "join",
+							"value": "notifications.page@fields~profile.pseudo;profile.avatar"
+						},
+						{
+							"key": "sort",
+							"value": "-createdAt"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						},
+						{
+							"key": null,
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Subscribe content POST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ec026d6f-b3f4-4dee-8a28-6bad041bc230",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "createdBy",
+							"value": "0a9fcf35-e3ae-4067-b1ef-4d84a64ac69b",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{url}}/packages/5d3ef55910f742001251f51b/subscribers",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"packages",
+						"5d3ef55910f742001251f51b",
+						"subscribers"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Subscribe content DELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ec026d6f-b3f4-4dee-8a28-6bad041bc230",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "createdBy",
+							"value": "0a9fcf35-e3ae-4067-b1ef-4d84a64ac69b",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{url}}/packages/5d3ef55910f742001251f51b/subscribers",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"packages",
+						"5d3ef55910f742001251f51b",
+						"subscribers"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Follow creator POST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aaa517d5-fb26-4886-ad0d-133d532fbe1c",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "createdBy",
+							"value": "0a9fcf35-e3ae-4067-b1ef-4d84a64ac69b",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{url}}/pages/07c8afbb-a151-4be4-a6ee-b0d3ed757443/subscribers",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"pages",
+						"07c8afbb-a151-4be4-a6ee-b0d3ed757443",
+						"subscribers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Follow creator DELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aaa517d5-fb26-4886-ad0d-133d532fbe1c",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "X-Auth-Token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "createdBy",
+							"value": "0a9fcf35-e3ae-4067-b1ef-4d84a64ac69b",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{url}}/pages/07c8afbb-a151-4be4-a6ee-b0d3ed757443/subscribers",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"pages",
+						"07c8afbb-a151-4be4-a6ee-b0d3ed757443",
+						"subscribers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Playlist feed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "44a631d9-3463-461f-b38f-9bf7f3c58c1f",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Result exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/packages/5da3aae0c22c7a00121cde46/feed",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"packages",
+						"5da3aae0c22c7a00121cde46",
+						"feed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Discover article",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "863e1173-b5ef-42c5-a53f-37e8a41822b0",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Result exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/contents/feed/article",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contents",
+						"feed",
+						"article"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Discover VH",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "863e1173-b5ef-42c5-a53f-37e8a41822b0",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Result exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Auth-Token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/contents/feed/video",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contents",
+						"feed",
+						"video"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Discover VV",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "863e1173-b5ef-42c5-a53f-37e8a41822b0",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Result exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Auth-Token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/contents/feed/videovertical",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contents",
+						"feed",
+						"videovertical"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Discover quiz",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "863e1173-b5ef-42c5-a53f-37e8a41822b0",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Result exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Auth-Token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/contents/feed/quiz",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contents",
+						"feed",
+						"quiz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Related Facts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a9a0d07-6e0c-4367-9f8a-18373f083dc1",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"pm.test(\"Result exist and not empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result).to.be.an('array').that.is.not.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{url}}/contents/5cde02db7d24f80012e573fc/related?",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contents",
+						"5cde02db7d24f80012e573fc",
+						"related"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "salim.aboubakri@gmail.com",
+							"disabled": true
+						},
+						{
+							"key": "pseudo",
+							"value": "sadez",
+							"disabled": true
+						},
+						{
+							"key": "firstName",
+							"value": "Salim",
+							"disabled": true
+						},
+						{
+							"key": "lastName",
+							"value": "Aboubakri",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Follow user POST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a9a0d07-6e0c-4367-9f8a-18373f083dc1",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"createdBy\": \"0a9fcf35-e3ae-4067-b1ef-4d84a64ac69b\"\n}"
+				},
+				"url": {
+					"raw": "https://{{url}}/users/3837e016-210c-4aee-9807-b0b9fef23756/friends",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"3837e016-210c-4aee-9807-b0b9fef23756",
+						"friends"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "salim.aboubakri@gmail.com",
+							"disabled": true
+						},
+						{
+							"key": "pseudo",
+							"value": "sadez",
+							"disabled": true
+						},
+						{
+							"key": "firstName",
+							"value": "Salim",
+							"disabled": true
+						},
+						{
+							"key": "lastName",
+							"value": "Aboubakri",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Follow user DELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a9a0d07-6e0c-4367-9f8a-18373f083dc1",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"createdBy\": \"0a9fcf35-e3ae-4067-b1ef-4d84a64ac69b\"\n}"
+				},
+				"url": {
+					"raw": "https://{{url}}/users/3837e016-210c-4aee-9807-b0b9fef23756/friends",
+					"protocol": "https",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"3837e016-210c-4aee-9807-b0b9fef23756",
+						"friends"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "salim.aboubakri@gmail.com",
+							"disabled": true
+						},
+						{
+							"key": "pseudo",
+							"value": "sadez",
+							"disabled": true
+						},
+						{
+							"key": "firstName",
+							"value": "Salim",
+							"disabled": true
+						},
+						{
+							"key": "lastName",
+							"value": "Aboubakri",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

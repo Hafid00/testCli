@@ -1,0 +1,13 @@
+stages:
+    - test
+
+postman_tests:
+    stage: test
+    image: 
+        name: postman/newman_alpine33
+        entrypoint: [""]
+    script:
+        - newman run Tests.postman_collection.json --environment prod.postman_environment.json
+build:
+  script:
+    - newman run Tests.postman_collection.json --environment prod.postman_environment.json
